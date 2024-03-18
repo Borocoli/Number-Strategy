@@ -4,101 +4,43 @@ public class Main {
 	public static void main(String[] args) {
 	Scanner input = new Scanner(System.in);
 	Table table = new Table(4);
-	int winner = 0;
-	int val;
-	char[] vs;
-	String pos;
-	do {
+	int[] set1 = new int[]{3, 5, 7};
+	int[] set2 = new int[]{4, 6, 8};
+	
+	NPC n1 = new NPC(set1);
+	NPC n2 = new NPC(set2);
+
+	int[] move;
+	int win;
+
+	while(true) {
+		//table.print();
+		move = n1.play(table);
+		System.out.println("Player 1 plays");
+		win = table.move(move[0], (char)(move[1] + 'a'), move[2]);
 		table.print();
-		System.out.println("Player 1 input: ");
-		val = input.nextInt();
-		pos = input.nextLine();
-		vs = pos.toCharArray();
-		winner = table.move((int)(vs[2] - '0'), vs[1], val);
-		if (winner == 1) {
+		if(win == 1) {
 			System.out.println("Player 1 wins");
 			break;
-		} else if (winner == -1) {
-			System.out.println("Player 2 wins");
+		}else if(win == -1) {
+			System.out.println("Player 1 loses");
 			break;
 		}
+	
+		move = n2.play(table);
+		System.out.println("Player 2 plays");
+		win = table.move(move[0], (char)(move[1] + 'a'), move[2]);
 		table.print();
-		System.out.println("Player 2 input: ");
-		val = input.nextInt();
-		pos = input.nextLine();
-		vs = pos.toCharArray();
-		winner = table.move((int)(vs[2] - '0'), vs[1], val);
-		if (winner == 1) {
+		if(win == 1) {
 			System.out.println("Player 2 wins");
 			break;
-		} else if (winner == -1) {
-			System.out.println("Player 1 wins");
+		}else if(win == -1) {
+			System.out.println("Player 2 loses");
 			break;
 		}
 
+	}
 
-	}while(true);
 	}
 }
-
-class Table {
-	int[][] table;
-	int[] columns;
-	int[] lines;
-	public Table(int dim) {
-		table = new int[dim][dim];
-		lines = new int[dim];
-		columns = new int[dim];
-	}
-
-	public void print() {
-		int c = 'a' + table.length - 1;
-		for(int[] n1: table) {
-			System.out.print("  ");
-
-			for(int i = 0; i < n1.length; i++) {
-				System.out.print(" -");
-
-			}
-			System.out.println();
-			System.out.print((char)c);
-			System.out.print(' ');
-
-			c --;
-
-			System.out.print('|');
-			for(int n2: n1) {
-				System.out.print(n2);
-				System.out.print('|');
-
-			}
-			System.out.println();
-		}
-		System.out.print("  ");
-		for(int i = 0; i < table.length; i++) {
-			System.out.print(' ');
-
-			System.out.print(i+1);
-
-		}
-		System.out.println();
-
-	}
-
-	public int move(int l, char c, int val) {
-		int sc = 15;
-		int col = (int)(c - 'a');
-		col = table.length - col - 1;
-		l--;
-		table[col][l] = val;
-		columns[col] += val;
-		lines[l] += val;
-		if(columns[col] > sc || lines[l] > sc) {
-			return -1;
-		}else if(columns[col] == sc || lines[l] == sc) {
-			return 1;
-		}
-
-		return 0;
-	}
 }
