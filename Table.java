@@ -46,6 +46,9 @@ public class Table {
 		return table.length;
 	}
 	public boolean is_occupied(int l, int c) {
+		if( l < 0 || c < 0) {
+			return false;
+		}
 		if (table[c][l] == 0) 
 			return false;
 		return true;
